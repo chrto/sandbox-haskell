@@ -1,0 +1,104 @@
+cabal-version:      2.4
+name:               sandbox
+version:            0.1.0.0
+
+-- A short (one-line) description of the package.
+-- synopsis:
+
+-- A longer description of the package.
+-- description:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+license:            MIT
+license-file:       LICENSE
+author:             Jan Chrtiansky
+maintainer:         jan.chrtiansky@gmail.com
+
+-- A copyright notice.
+-- copyright:
+-- category:
+extra-source-files: CHANGELOG.md
+
+common common-all
+  build-depends:
+    , base        ^>=4.14.3.0
+    , directory   >=1.3.6.0
+    , hspec       ^>=2.10.0
+    , QuickCheck  >=2.12
+
+  default-language: Haskell2010
+  ghc-options:      -Wall
+
+library
+  import:          common-all
+  exposed-modules:
+    Lib.Common.FS
+    Lib.Common.IO
+    Lib.Common.MaybeIO
+    Lib.Common.OrderTree
+    Lib.Common.OS
+    Lib.Common.TupTree
+    Lib.Monad.Either
+    Lib.Monad.IOEither
+    Lib.Monad.IOMaybe
+    Lib.Monad.Maybe
+    Lib.Search.Common
+    Lib.Search.Either
+    Lib.Search.Imperative
+
+  hs-source-dirs:  src
+
+executable SearchFileImperative
+  import:         common-all
+  main-is:        SearchFileImperative.hs
+  other-modules:
+    Lib.Common.FS
+    Lib.Common.IO
+    Lib.Common.OS
+    Lib.Search.Common
+    Lib.Monad.Either
+    Lib.Search.Imperative
+
+  hs-source-dirs: app src
+  ghc-options:    -main-is SearchFileImperative
+
+executable SearchFileFuncional
+  import:         common-all
+  main-is:        SearchFileFuncional.hs
+  other-modules:
+    Lib.Common.FS
+    Lib.Common.IO
+    Lib.Common.OS
+    Lib.Monad.Either
+    Lib.Monad.Maybe
+    Lib.Search.Common
+    Lib.Search.Either
+
+  hs-source-dirs: app src
+  ghc-options:    -main-is SearchFileFuncional
+
+executable SearchFileIOM
+  import:         common-all
+  main-is:        SearchFileIOM.hs
+  other-modules:
+    -- Lib.Common.FS
+    Lib.Common.MaybeIO
+    -- Lib.Common.OS
+    -- Lib.Monad.IOEither
+    Lib.Monad.IOMaybe
+    -- Lib.Search.Common
+    -- Lib.Search.Either
+
+  hs-source-dirs: app src
+  ghc-options:    -main-is SearchFileIOM
+
+test-suite my-tests
+  import:         common-all
+  main-is:        Spec.hs
+  type:           exitcode-stdio-1.0
+  hs-source-dirs: src test
+  ghc-options:    -main-is Spec
+  other-modules:
+    Exercises.Advanced.OrderTree
+    Exercises.Advanced.TupTree
